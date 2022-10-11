@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Game</title>
+    <style>
+        .game {
+            width: max-content;
+            height: 100px;
+            margin: -16px -31px 20px -31px;
+        }
+
+        #ghost {
+            width: 24px;
+            height: 34px;
+            background-image: url("../images/Ghost.png");
+            background-size: 24px 34px;
+
+            position: relative;
+            top: 39px;
+        }
+
+        .jump {
+            animation: jump 0.3s linear;
+        }
+
+        @keyframes jump {
+            0% {
+                top: 39px;
+            }
+
+            30% {
+                top: -5px;
+            }
+
+            50% {
+                top: -40px;
+            }
+
+            80% {
+                top: -5px;
+            }
+
+            100% {
+                top: 39px;
+            }
+        }
+
+        #cactus {
+            width: 20px;
+            height: 25px;
+            position: relative;
+            top: 13px;
+            left: 250px;
+            background-image: url("../images/Cactus.png");
+            background-size: 20px 25px;
+
+            animation: block 2s infinite linear;
+        }
+
+        @keyframes block {
+            0% {
+                left: 250px;
+            }
+
+            100% {
+                left: -79px;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="game">
+        <h2>
+            <div id="ghost"></div>
+            <div id="cactus"></div>
+        </h2>
+    </div>
+    <script>
+        let ghost = document.getElementById("ghost");
+        let cactus = document.getElementById("cactus");
+
+        function jump() {
+            if (ghost.classList != "jump") {
+                ghost.classList.add("jump");
+
+                setTimeout(function () {
+                    ghost.classList.remove("jump");
+                }, 300);
+            }
+        }
+
+        let isAlive = setInterval(function () {
+            //Get current Ghost Y position
+            let ghostTop = parseInt(
+                window.getComputedStyle(ghost).getPropertyValue("top")
+            );
+
+            //Get current Cactus X position
+            let cactusLeft = parseInt(
+                window.getComputedStyle(cactus).getPropertyValue("left")
+            );
+
+            //Detect Collision
+            if (cactusLeft < 24 && cactusLeft > 0 && ghostTop >= 34) {
+                alert("Game Over!");
+            }
+        }, 10);
+
+        document.addEventListener("keydown", function (event) {
+            jump();
+        });
+    </script>
+</body>
+
+</html>
